@@ -1,0 +1,9 @@
+import/*.kml
+cache/*.go
+data/*.kml
+data/Plants-brief.json
+data/*
+api/vendor/*/
+api/index
+import/vendor/*/
+import/import
