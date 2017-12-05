@@ -6,7 +6,7 @@ This is the new WhatGrowsHere Backend Stack, rewritten in Go, using MongoDB.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [API documentation](#api documentation)
+- [API documentation](#api-documentation)
 - [Support](#support)
 - [Contributing](#contributing)
 
