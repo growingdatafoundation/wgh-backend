@@ -2,19 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	//"fmt"
-	//"log"
-	//"github.com/benmanns/goworker"
 	"gopkg.in/mgo.v2"
     "gopkg.in/mgo.v2/bson"
-    //"math"
     "strconv"
 )
 
 type SubRegion struct {
 	Id bson.ObjectId `bson:"_id,omitempty" json:"id"`
     Name string `bson:"name" json:"name"`
-    //Polygon GeoJsonPolygon `bson:"polygon" json:"polygon"`
     ShortName string `bson:"shortName" json:"shortName"`
     Code int `bson:"code" json:"code"`
     RegionName string `bson:"regionName" json:"regionName"`
@@ -151,10 +146,6 @@ func main() {
 			return
 		}
 
-		//fmt.Printf("foundRegion %v, error %v, equality %v", foundRegion, err, err == mgo.ErrNotFound)
-		//log.Fatal()
-
-		//plantsWithCount := []PlantWithCount
 		plantsWithCount := []PlantWithCount{}
 		// Do the aggregation in MongoDB (let Mongo do the hard work it was designed for)
 		query := []bson.M{
