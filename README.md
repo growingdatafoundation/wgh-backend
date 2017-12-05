@@ -58,8 +58,8 @@ TODO
 
 ## Support
 
-Please [open an issue](https://github.com/growingdatafoundation/wgh-api/issues/new) for support.
+Please [open an issue](https://github.com/growingdatafoundation/wgh-backend/issues/new) for support.
 
 ## Contributing
 
-Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/growingdatafoundation/wgh-api/compare).
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/growingdatafoundation/wgh-backend/compare).
