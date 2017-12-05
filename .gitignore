@@ -3,6 +3,7 @@ cache/*.go
 data/*.kml
 data/Plants-brief.json
 data/*
+!data/download.sh
 api/vendor/*/
 api/index
 import/vendor/*/
