@@ -1,6 +1,6 @@
-# WhatGrowsHere backend
+# WhatGrowsHere Backend Stack
 
-This is the new WhatGrowsHere API, rewritten in Go with MongoDB.
+This is the new WhatGrowsHere Backend Stack, rewritten in Go, using MongoDB.
 
 ## Table of Contents
 
@@ -14,19 +14,23 @@ This is the new WhatGrowsHere API, rewritten in Go with MongoDB.
 
 - Go version > 1.7
 - Go environment set up
-- govendor [installed](https://github.com/kardianos/govendor)
+- [govendor installed](https://github.com/kardianos/govendor)
 - MongoDB version > 3.4.4 (however, keep in mind that ^3.4 will be deprecated soon - 3.6.0 offers new improvements which we will harness soon)
 
 ## Installation
 
 1. Download the data files
 
+You will need to have the [gdrive CLI tool](https://github.com/prasmussen/gdrive) installed and in your PATH
+
 ```sh
 cd data
 bash download.sh
 ```
 
-2. Import the data files into Mongo
+2. Import the data files into Mongo.
+
+This step could be better parallelized, as it can take quite a while (~8h on a mid-range laptop), however since you should only run this once, it is not a priority.
 
 ```sh
 cd import
