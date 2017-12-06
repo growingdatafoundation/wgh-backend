@@ -5,6 +5,7 @@ import (
     "gopkg.in/mgo.v2"
     "gopkg.in/mgo.v2/bson"
     "strconv"
+    "github.com/gin-contrib/cors"
 )
 
 type SubRegion struct {
@@ -18,7 +19,7 @@ type SubRegion struct {
     State string `bson:"state" json:"state"`
     Area float64 `bson:"area" json:"area"`
     Circumference float64 `bson:"circumference" json:"circumference"`
-    Geometry map[string]interface{} `bson:"geometry" json:"geometry"`
+    //Geometry map[string]interface{} `bson:"geometry" json:"geometry"`
 }
 
 type Plant struct {
@@ -81,6 +82,7 @@ func main() {
     defer session.Close()
 
     r := gin.Default()
+    r.Use(cors.Default())
 
     /* 
     MongoDB 3.6+
@@ -180,7 +182,10 @@ func main() {
         }
 
         sessionPool <- session
-        c.JSON(200, plantsWithCount)
+        c.JSON(200, gin.H{
+            "plants": plantsWithCount,
+            "region": foundRegion,
+        })
     })
 
     // Return plants
@@ -301,7 +306,10 @@ func main() {
                 return
             }
 
-            c.JSON(200, plantsWithCount)        
+            c.JSON(200, gin.H{
+                "plants": plantsWithCount,
+                "region": foundRegion,
+            })      
             return
         } else {
             plants := []Plant{}
@@ -342,7 +350,9 @@ func main() {
             }
 
             sessionPool <- session
-            c.JSON(200, plants)
+            c.JSON(200, gin.H{
+                "plants": plants,
+            })
             return
         }
     })
