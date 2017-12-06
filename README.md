@@ -1,6 +1,6 @@
-# WhatGrowsHere Backend Stack
+# WhatGrowsHere Backend
 
-This is the new WhatGrowsHere Backend Stack, rewritten in Go, using MongoDB.
+This is the new WhatGrowsHere Backend, rewritten in Go, using MongoDB.
 
 ## Table of Contents
 
