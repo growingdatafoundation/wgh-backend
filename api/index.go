@@ -33,7 +33,7 @@ type Plant struct {
     SpreadMax float64 `bson:"spreadMax" json:"spreadMax"`
     Form int `bson:"form" json:"form"`
     ImageUrl string `bson:"imageUrl" json:"imageUrl"`
-    ImageBase64 string `bson:"imageBase64" json:"imageBase64"`
+    //ImageBase64 string `bson:"imageBase64" json:"imageBase64"`
     Rain string `bson:"rain" json:"rain"`
     SoilTexture []string `bson:"soilTexture" json:"soilTexture"`
     SoilPh string `bson:"soilPh" json:"soilPh"`
@@ -52,7 +52,7 @@ type PlantWithCount struct {
     SpreadMax float64 `bson:"spreadMax" json:"spreadMax"`
     Form int `bson:"form" json:"form"`
     ImageUrl string `bson:"imageUrl" json:"imageUrl"`
-    ImageBase64 string `bson:"imageBase64" json:"imageBase64"`
+    //ImageBase64 string `bson:"imageBase64" json:"imageBase64"`
     Rain string `bson:"rain" json:"rain"`
     SoilTexture []string `bson:"soilTexture" json:"soilTexture"`
     SoilPh string `bson:"soilPh" json:"soilPh"`
@@ -135,11 +135,13 @@ func main() {
 		foundRegion := SubRegion{}
 		err = regionsCollection.Find(bson.M{"geometry": bson.M{"$geoIntersects": bson.M{"$geometry": bson.M{"type": "Point", "coordinates": []float64{parsedLongitude, parsedLatitude}}}}}).One(&foundRegion)
 		if (err == mgo.ErrNotFound) {
+			sessionPool <- session
 			c.JSON(400, gin.H{
 				"message": "The given location is not in Australia.",
 			})
 			return
 		} else if (err != nil && err != mgo.ErrNotFound) {
+			sessionPool <- session
 			c.JSON(500, gin.H{
 				"message": "Server error - region query.",
 			})
@@ -170,18 +172,20 @@ func main() {
 		pipe := occurencesCollection.Pipe(query)
 		err := pipe.All(&plantsWithCount)
     	if err != nil {
+    		sessionPool <- session
         	c.JSON(500, gin.H{
 				"message": "Server error - aggregation pipeline.",
 			})
 			return
     	}
 
+    	sessionPool <- session
 		c.JSON(200, plantsWithCount)
 	})
 
 	// Return plants
 	r.GET("/plant/search", func(c *gin.Context) {
-		//session := <- sessionPool
+		session := <- sessionPool
 		regionsCollection := session.DB("test").C("regions")
 		occurencesCollection := session.DB("test").C("occurences")
 		plantsCollection := session.DB("test").C("plants")
@@ -202,11 +206,13 @@ func main() {
 				// Find region based on name
 				err = regionsCollection.Find(bson.M{"name": region}).One(&foundRegion)
 				if (err == mgo.ErrNotFound) {
+					sessionPool <- session
 					c.JSON(400, gin.H{
 						"message": "The given location is not in Australia.",
 					})
 					return
 				} else if (err != nil && err != mgo.ErrNotFound) {
+					sessionPool <- session
 					c.JSON(500, gin.H{
 						"message": "Server error - region query.",
 					})
@@ -219,11 +225,13 @@ func main() {
 				// Find region based on lat/long
 				err = regionsCollection.Find(bson.M{"geometry": bson.M{"$geoIntersects": bson.M{"$geometry": bson.M{"type": "Point", "coordinates": []float64{parsedLongitude, parsedLatitude}}}}}).One(&foundRegion)
 				if (err == mgo.ErrNotFound) {
+					sessionPool <- session
 					c.JSON(400, gin.H{
 						"message": "The given location is not in Australia.",
 					})
 					return
 				} else if (err != nil && err != mgo.ErrNotFound) {
+					sessionPool <- session
 					c.JSON(500, gin.H{
 						"message": "Server error - region query.",
 					})
@@ -286,6 +294,7 @@ func main() {
 			//fmt.Printf("%v as", plantsWithCount)
 			err := pipe.All(&plantsWithCount)
 	    	if err != nil {
+	    		sessionPool <- session
 	        	c.JSON(500, gin.H{
 					"message": "Server error - aggregation pipeline.",
 				})
@@ -325,12 +334,14 @@ func main() {
 
 			err = plantsCollection.Find(matchQuery).All(&plants)
         	if err != nil {
+        		sessionPool <- session
             	c.JSON(500, gin.H{
 					"message": "Server error - query.",
 				})
 				return
         	}
 
+        	sessionPool <- session
 			c.JSON(200, plants)
 			return
 		}

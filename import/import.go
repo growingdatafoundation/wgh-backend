@@ -254,7 +254,8 @@ func importPlants(s *spinner.Spinner) {
 
         scientificName := plant["Genus"].(string) + " " + plant["Botanical name"].(string)
 
-        imageUrl, imageBase64, err := getThumbnailLinkAndBase64(scientificName)
+        //imageUrl, imageBase64, err := getThumbnailLinkAndBase64(scientificName)
+        imageUrl, _, err := getThumbnailLinkAndBase64(scientificName)
 
         transformedPlant := Plant{
             Type: plant["Type"].(string),
@@ -271,7 +272,8 @@ func importPlants(s *spinner.Spinner) {
             SoilPh: plant["Soil pH"].(string),
             FlowerColor: plant["Flower colour"].(string),
             ImageUrl: imageUrl,
-            ImageBase64: imageBase64}
+            //ImageBase64: imageBase64,
+        }
 
         plantsCollection.Insert(transformedPlant)
 
