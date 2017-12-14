@@ -112,7 +112,11 @@ func importRegions(s *spinner.Spinner) {
             Circumference: ibraSubRegion["properties"].(map[string]interface{})["SHAPE_LEN"].(float64),
             Geometry: ibraSubRegion["geometry"].(map[string]interface{})}
 
-        regionsCollection.Insert(transformedSubRegion)
+        // MongoDB doesn't handle duplicate vertices, discard these subregions...
+        // TODO: Fix this!
+        if (transformedSubRegion.Code != 166 && transformedSubRegion.Code != 326) {
+            regionsCollection.Insert(transformedSubRegion)
+        }
 
         s.Suffix = fmt.Sprintf(" Importing regions...%v", transformedSubRegion.Name)
     }
@@ -128,7 +132,8 @@ func importRegions(s *spinner.Spinner) {
     if err != nil {
         log.Fatal(err)
     } else {
-        log.Fatal("Index ensured")
+        // Do nothing, success!
+        //log.Fatal("Index ensured")
     }
 
     sessionPool <- session
