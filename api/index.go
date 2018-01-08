@@ -126,7 +126,7 @@ func main() {
       }
     ])
     */
-    r.GET("/plant/location", func(c *gin.Context) {
+    r.GET("/api/plant/location", func(c *gin.Context) {
         session := <- sessionPool
         regionsCollection := session.DB("test").C("regions")
         occurencesCollection := session.DB("test").C("occurences")
@@ -190,7 +190,7 @@ func main() {
     })
 
     // Return plants
-    r.GET("/plant/search", func(c *gin.Context) {
+    r.GET("/api/plant/search", func(c *gin.Context) {
         session := <- sessionPool
         regionsCollection := session.DB("test").C("regions")
         occurencesCollection := session.DB("test").C("occurences")
