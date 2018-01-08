@@ -285,7 +285,7 @@ func main() {
 
             matchQuery := bson.M{}
             if (nameExists && name != "") {
-                matchQuery["scientificName"] = "/^" + name + "/"
+                matchQuery["scientificName"] = bson.RegEx{Pattern: name, Options: "i"}
             }
 
             if (heightMinExists && heightMaxExists) {
@@ -332,7 +332,7 @@ func main() {
             plants := []Plant{}
             matchQuery := bson.M{}
             if (nameExists && name != "") {
-                matchQuery["scientificName"] = "/^" + name + "/"
+                matchQuery["scientificName"] = bson.RegEx{Pattern: name, Options: "i"}
             }
 
             if (heightMinExists && heightMaxExists) {
