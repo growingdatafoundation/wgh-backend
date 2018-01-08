@@ -284,8 +284,8 @@ func main() {
             }
 
             matchQuery := bson.M{}
-            if (nameExists) {
-                matchQuery["scientificName"] = name
+            if (nameExists && name != "") {
+                matchQuery["scientificName"] = "/.*" + name + ".*/"
             }
 
             if (heightMinExists && heightMaxExists) {
@@ -331,8 +331,8 @@ func main() {
         } else {
             plants := []Plant{}
             matchQuery := bson.M{}
-            if (nameExists) {
-                matchQuery["scientificName"] = name
+            if (nameExists && name != "") {
+                matchQuery["scientificName"] = "/.*" + name + ".*/"
             }
 
             if (heightMinExists && heightMaxExists) {
