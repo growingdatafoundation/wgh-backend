@@ -203,22 +203,22 @@ func main() {
         spreadMin, spreadMinExists := c.GetQuery("spread-min")
         var spreadMinParsed float64 
         if (spreadMinExists) {
-            spreadMinParsed, _  := strconv.ParseFloat(spreadMin, 64)
+            spreadMinParsed, _ = strconv.ParseFloat(spreadMin, 64)
         }
         spreadMax, spreadMaxExists := c.GetQuery("spread-max")
         var spreadMaxParsed float64
         if (spreadMaxExists) {
-            spreadMaxParsed, _  := strconv.ParseFloat(spreadMax, 64)
+            spreadMaxParsed, _ = strconv.ParseFloat(spreadMax, 64)
         }
         heightMin, heightMinExists := c.GetQuery("height-min")
         var heightMinParsed float64
         if (heightMinExists) {
-            heightMinParsed, _  := strconv.ParseFloat(heightMin, 64)
+            heightMinParsed, _ = strconv.ParseFloat(heightMin, 64)
         }
         heightMax, heightMaxExists := c.GetQuery("height-max")
         var heightMaxParsed float64
         if (heightMaxExists) {
-           heightMaxParsed, _  := strconv.ParseFloat(heightMax, 64)
+           heightMaxParsed, _ = strconv.ParseFloat(heightMax, 64)
         }
         name, nameExists := c.GetQuery("plant-name-input")
         
