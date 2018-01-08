@@ -81,6 +81,7 @@ func main() {
     }
     defer session.Close()
 
+    gin.SetMode(gin.ReleaseMode)
     r := gin.Default()
     r.Use(cors.Default())
 
@@ -200,9 +201,25 @@ func main() {
         region, regionExists := c.GetQuery("region")
         season, seasonExists := c.GetQueryArray("search-season-ckb")
         spreadMin, spreadMinExists := c.GetQuery("spread-min")
+        var float64 spreadMinParsed
+        if (spreadMinExists) {
+            spreadMinParsed, _  := strconv.ParseFloat(spreadMin, 64)
+        }
         spreadMax, spreadMaxExists := c.GetQuery("spread-max")
+        var float64 spreadMaxParsed
+        if (spreadMaxExists) {
+            spreadMaxParsed, _  := strconv.ParseFloat(spreadMax, 64)
+        }
         heightMin, heightMinExists := c.GetQuery("height-min")
+        var float64 heightMinParsed
+        if (heightMinExists) {
+            heightMinParsed, _  := strconv.ParseFloat(heightMin, 64)
+        }
         heightMax, heightMaxExists := c.GetQuery("height-max")
+        var float64 heightMaxParsed
+        if (heightMaxExists) {
+           heightMaxParsed, _  := strconv.ParseFloat(heightMax, 64)
+        }
         name, nameExists := c.GetQuery("plant-name-input")
         
         if (regionExists || (latitudeExists && longitudeExists)) {
@@ -272,21 +289,21 @@ func main() {
             }
 
             if (heightMinExists && heightMaxExists) {
-                matchQuery["heightMin"] = bson.M{"$gt": heightMin}
-                matchQuery["heightMax"] = bson.M{"$lt": heightMax}
+                matchQuery["heightMin"] = bson.M{"$gt": heightMinParsed}
+                matchQuery["heightMax"] = bson.M{"$lt": heightMaxParsed}
             } else if(heightMaxExists){
-                matchQuery["heightMax"] = bson.M{"$lt": heightMax}
+                matchQuery["heightMax"] = bson.M{"$lt": heightMaxParsed}
             } else if(heightMinExists) {
-                matchQuery["heightMin"] = bson.M{"$gt": heightMin}
+                matchQuery["heightMin"] = bson.M{"$gt": heightMinParsed}
             }
 
             if (spreadMinExists && spreadMaxExists) {
-                matchQuery["spreadMin"] = bson.M{"$gt": spreadMin}
-                matchQuery["spreadMax"] = bson.M{"$lt": spreadMax}
+                matchQuery["spreadMin"] = bson.M{"$gt": spreadMinParsed}
+                matchQuery["spreadMax"] = bson.M{"$lt": spreadMaxParsed}
             } else if(spreadMaxExists){
-                matchQuery["spreadMax"] = bson.M{"$lt": spreadMax}
+                matchQuery["spreadMax"] = bson.M{"$lt": spreadMaxParsed}
             } else if(spreadMinExists) {
-                matchQuery["spreadMin"] = bson.M{"$gt": spreadMin}
+                matchQuery["spreadMin"] = bson.M{"$gt": spreadMinParsed}
             }
 
             if (seasonExists) {
@@ -319,21 +336,21 @@ func main() {
             }
 
             if (heightMinExists && heightMaxExists) {
-                matchQuery["heightMin"] = bson.M{"$gt": heightMin}
-                matchQuery["heightMax"] = bson.M{"$lt": heightMax}
+                matchQuery["heightMin"] = bson.M{"$gt": heightMinParsed}
+                matchQuery["heightMax"] = bson.M{"$lt": heightMaxParsed}
             } else if(heightMaxExists){
-                matchQuery["heightMax"] = bson.M{"$lt": heightMax}
+                matchQuery["heightMax"] = bson.M{"$lt": heightMaxParsed}
             } else if(heightMinExists) {
-                matchQuery["heightMin"] = bson.M{"$gt": heightMin}
+                matchQuery["heightMin"] = bson.M{"$gt": heightMinParsed}
             }
 
             if (spreadMinExists && spreadMaxExists) {
-                matchQuery["spreadMin"] = bson.M{"$gt": spreadMin}
-                matchQuery["spreadMax"] = bson.M{"$lt": spreadMax}
+                matchQuery["spreadMin"] = bson.M{"$gt": spreadMinParsed}
+                matchQuery["spreadMax"] = bson.M{"$lt": spreadMaxParsed}
             } else if(spreadMaxExists){
-                matchQuery["spreadMax"] = bson.M{"$lt": spreadMax}
+                matchQuery["spreadMax"] = bson.M{"$lt": spreadMaxParsed}
             } else if(spreadMinExists) {
-                matchQuery["spreadMin"] = bson.M{"$gt": spreadMin}
+                matchQuery["spreadMin"] = bson.M{"$gt": spreadMinParsed}
             }
 
             if (seasonExists) {
@@ -358,5 +375,5 @@ func main() {
     })
 
     // Set PORT variable to override port
-    r.Run()
+    r.Run(":8000")
 }
