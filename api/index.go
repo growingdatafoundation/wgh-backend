@@ -222,9 +222,9 @@ func main() {
         }
         name, nameExists := c.GetQuery("plant-name-input")
         
-        if (regionExists || (latitudeExists && longitudeExists)) {
+        if ((regionExists && len(region) != 0)  || (latitudeExists && len(latitude) != 0 && longitudeExists && len(longitude) != 0)) {
             foundRegion := SubRegion{}
-            if (regionExists) {
+            if (regionExists && len(region) != 0) {
                 // Find region based on name
                 err = regionsCollection.Find(bson.M{"name": region}).One(&foundRegion)
                 if (err == mgo.ErrNotFound) {
